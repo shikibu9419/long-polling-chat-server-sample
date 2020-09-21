@@ -7,27 +7,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
+const nestjs_redis_1 = require("nestjs-redis");
 const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const message_service_1 = require("./message.service");
-const message_consumer_1 = require("./message.consumer");
-const bull_1 = require("@nestjs/bull");
+const options = {
+    url: process.env.REDIS_URL,
+};
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     common_1.Module({
         imports: [
-            bull_1.BullModule.registerQueue({
-                name: 'message',
-                redis: {
-                    host: 'redis',
-                    port: 6379,
-                },
-            }),
+            nestjs_redis_1.RedisModule.register(options)
         ],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService, message_service_1.MessageService, message_consumer_1.MessageConsumer],
+        providers: [app_service_1.AppService, message_service_1.MessageService],
     })
 ], AppModule);
 exports.AppModule = AppModule;

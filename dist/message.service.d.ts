@@ -1,7 +1,6 @@
-import { Queue } from 'bull';
-import { Job } from 'bull';
+import { RedisService } from 'nestjs-redis';
 export declare class MessageService {
-    private messageQueue;
-    constructor(messageQueue: Queue);
-    add(chatId: string, body: string): Promise<Job>;
+    private readonly redisService;
+    constructor(redisService: RedisService);
+    add(chatId: string, body: string): Promise<boolean>;
 }

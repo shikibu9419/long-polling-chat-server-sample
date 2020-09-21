@@ -1,20 +1,18 @@
+import { RedisModule } from 'nestjs-redis'
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MessageService } from './message.service';
-import { MessageConsumer } from './message.consumer';
+
+const options = {
+  url: process.env.REDIS_URL,
+}
 
 @Module({
   imports: [
-    BullModule.registerQueue({
-      name: 'message',
-      redis: {
-        host: 'redis',
-        port: 6379,
-      },
-    }),
+    RedisModule.register(options)
   ],
   controllers: [AppController],
-  providers: [AppService, MessageService, MessageConsumer],
+  providers: [AppService, MessageService],
 })
 export class AppModule {}

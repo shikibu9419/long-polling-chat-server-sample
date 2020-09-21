@@ -8,29 +8,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessageService = void 0;
 const common_1 = require("@nestjs/common");
-const bull_1 = require("bull");
-const bull_2 = require("@nestjs/bull");
+const nestjs_redis_1 = require("nestjs-redis");
 let MessageService = class MessageService {
-    constructor(messageQueue) {
-        this.messageQueue = messageQueue;
+    constructor(redisService) {
+        this.redisService = redisService;
     }
     async add(chatId, body) {
-        console.log('add');
-        const job = await this.messageQueue.add({ chatId, body });
-        return job;
+        const client = await this.redisService.getClient();
+        client.set(chatId, body);
+        console.log(await client.get(chatId));
+        return true;
     }
 };
 MessageService = __decorate([
     common_1.Injectable(),
-    __param(0, bull_2.InjectQueue('message')),
-    __metadata("design:paramtypes", [typeof (_a = typeof bull_1.Queue !== "undefined" && bull_1.Queue) === "function" ? _a : Object])
+    __metadata("design:paramtypes", [nestjs_redis_1.RedisService])
 ], MessageService);
 exports.MessageService = MessageService;
 //# sourceMappingURL=message.service.js.map

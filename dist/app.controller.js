@@ -13,12 +13,10 @@ exports.AppController = void 0;
 const common_1 = require("@nestjs/common");
 const app_service_1 = require("./app.service");
 const message_service_1 = require("./message.service");
-const message_consumer_1 = require("./message.consumer");
 let AppController = class AppController {
-    constructor(appService, messageService, messageConsumer) {
+    constructor(appService, messageService) {
         this.appService = appService;
         this.messageService = messageService;
-        this.messageConsumer = messageConsumer;
     }
     async getHello() {
         return await this.messageService.add('hoge', 'body').then(() => 'added.');
@@ -32,7 +30,7 @@ __decorate([
 ], AppController.prototype, "getHello", null);
 AppController = __decorate([
     common_1.Controller(),
-    __metadata("design:paramtypes", [app_service_1.AppService, message_service_1.MessageService, message_consumer_1.MessageConsumer])
+    __metadata("design:paramtypes", [app_service_1.AppService, message_service_1.MessageService])
 ], AppController);
 exports.AppController = AppController;
 //# sourceMappingURL=app.controller.js.map

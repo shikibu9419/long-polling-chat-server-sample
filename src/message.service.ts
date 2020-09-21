@@ -1,15 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { Queue } from 'bull';
-import { InjectQueue } from '@nestjs/bull';
-import { Job } from 'bull';
+import { RedisService } from 'nestjs-redis';
 
 @Injectable()
 export class MessageService {
-  constructor(@InjectQueue('message') private messageQueue: Queue) {}
+  constructor(private readonly redisService: RedisService) {}
 
-  async add(chatId: string, body: string): Promise<Job> {
-    console.log('add')
-    const job = await this.messageQueue.add({ chatId, body });
-    return job
+  async add(chatId: string, body: string): Promise<boolean> {
+    const client = await this.redisService.getClient()
+    client.set(chatId, body)
+    console.log(await client.get(chatId))
+    return true
   }
 }
