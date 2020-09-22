@@ -12,9 +12,10 @@ const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const message_service_1 = require("./message.service");
-const options = {
-    url: process.env.REDIS_URL,
-};
+const options = [
+    { name: 'sub', url: process.env.REDIS_URL },
+    { name: 'pub', url: process.env.REDIS_URL },
+];
 let AppModule = class AppModule {
 };
 AppModule = __decorate([

@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppController = void 0;
 const common_1 = require("@nestjs/common");
@@ -18,16 +21,26 @@ let AppController = class AppController {
         this.appService = appService;
         this.messageService = messageService;
     }
-    async getHello() {
-        return await this.messageService.add('hoge', 'body').then(() => 'added.');
+    async getHello(res) {
+        return await this.messageService.sub('chatId', res).then(() => 'subbed.');
+    }
+    async chatId() {
+        return await this.messageService.pub('chatId', 'body').then(() => 'PUBBED.');
     }
 };
 __decorate([
     common_1.Get(),
+    __param(0, common_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AppController.prototype, "getHello", null);
+__decorate([
+    common_1.Get('pub'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], AppController.prototype, "getHello", null);
+], AppController.prototype, "chatId", null);
 AppController = __decorate([
     common_1.Controller(),
     __metadata("design:paramtypes", [app_service_1.AppService, message_service_1.MessageService])
