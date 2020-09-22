@@ -10,7 +10,7 @@ services:
       REDIS_URL: redis://redis:6379/0
     volumes:
       - .:/myapp
-    command: yarn run start
+    command: yarn run start:dev
     networks:
       - webnet
     depends_on:

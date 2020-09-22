@@ -4,9 +4,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MessageService } from './message.service';
 
-const options = {
-  url: process.env.REDIS_URL,
-}
+const options = [
+  { name: 'sub', url: process.env.REDIS_URL },
+  { name: 'pub', url: process.env.REDIS_URL },
+]
 
 @Module({
   imports: [
